@@ -1,0 +1,60 @@
+{
+	"name": "n8n-nodes-churchhq",
+	"version": "0.1.0",
+	"description": "Official n8n nodes for Church HQ: a trigger for Church HQ webhooks (signature-verified) and actions over the Church HQ Enterprise API.",
+	"license": "MIT",
+	"homepage": "https://github.com/levelup-gh/n8n-nodes-churchhq#readme",
+	"keywords": [
+		"n8n-community-node-package",
+		"church",
+		"church-management",
+		"chms",
+		"church-hq"
+	],
+	"author": {
+		"name": "Level Up",
+		"url": "https://github.com/levelup-gh"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/levelup-gh/n8n-nodes-churchhq.git"
+	},
+	"bugs": {
+		"url": "https://github.com/levelup-gh/n8n-nodes-churchhq/issues"
+	},
+	"scripts": {
+		"build": "n8n-node build",
+		"build:watch": "tsc --watch",
+		"dev": "n8n-node dev",
+		"lint": "n8n-node lint",
+		"lint:fix": "n8n-node lint --fix",
+		"test": "node --test test/*.test.mjs",
+		"release": "n8n-node release",
+		"prepublishOnly": "n8n-node prerelease"
+	},
+	"files": [
+		"dist"
+	],
+	"n8n": {
+		"n8nNodesApiVersion": 1,
+		"strict": true,
+		"credentials": [
+			"dist/credentials/ChurchHqApi.credentials.js"
+		],
+		"nodes": [
+			"dist/nodes/ChurchHq/ChurchHq.node.js",
+			"dist/nodes/ChurchHqTrigger/ChurchHqTrigger.node.js"
+		]
+	},
+	"devDependencies": {
+		"@n8n/node-cli": "0.48.5",
+		"@types/node": "^22.20.3",
+		"eslint": "9.39.4",
+		"prettier": "3.8.3",
+		"release-it": "20.2.0",
+		"typescript": "5.9.3"
+	},
+	"peerDependencies": {
+		"n8n-workflow": "*"
+	}
+}

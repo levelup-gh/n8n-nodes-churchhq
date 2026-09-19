@@ -1,0 +1,54 @@
+# Publishes n8n-nodes-churchhq to npm when a version tag (for example 0.1.0) is pushed.
+#
+# n8n requires community nodes submitted for verification to be published from GitHub Actions with
+# an npm provenance statement (required since May 1, 2026). This workflow does that: `npm run release`
+# (n8n-node release) lints, builds and publishes with --provenance.
+#
+# One-time setup (Level Up, GitHub org levelup-gh):
+#   1. On npmjs.com, open the package settings, then Publish access, then Trusted Publishers, and add
+#      a GitHub Actions publisher: owner levelup-gh, repository n8n-nodes-churchhq, workflow
+#      publish.yml. No npm token is stored in GitHub with this option.
+#   2. Only if Trusted Publishers cannot be used: create a granular npm token with publish rights to
+#      this package and save it as the NPM_TOKEN repository secret.
+#
+# Releasing: run `npm run release` locally. It bumps the version, updates the changelog, commits,
+# tags and pushes, and the pushed tag runs this workflow.
+
+name: Publish
+
+on:
+  push:
+    tags:
+      - '*.*.*'
+
+jobs:
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+
+    permissions:
+      # Needed to mint the OIDC token that signs the npm provenance statement.
+      id-token: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test
+        run: npm test
+
+      - name: Release
+        run: |
+          [ -n "$NPM_TOKEN" ] && npm config set //registry.npmjs.org/:_authToken "$NPM_TOKEN"
+          npm run release
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
