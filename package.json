@@ -1,6 +1,6 @@
 {
 	"name": "n8n-nodes-churchhq",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "Official n8n nodes for Church HQ: a trigger for Church HQ webhooks (signature-verified) and actions over the Church HQ Enterprise API.",
 	"license": "MIT",
 	"homepage": "https://github.com/levelup-gh/n8n-nodes-churchhq#readme",
